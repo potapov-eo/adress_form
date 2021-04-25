@@ -10,9 +10,9 @@ const StyledApp = styled.div`
 function App() {
     return (
         <StyledApp>
-            <AutocompleteAddress/>
+            <AutocompleteAddress  />
         </StyledApp>
-    );
+    )
 }
 
 export default App;

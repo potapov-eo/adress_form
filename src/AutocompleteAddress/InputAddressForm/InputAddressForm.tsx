@@ -1,13 +1,14 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {useFormik} from "formik";
 import {Button, TextField} from "@material-ui/core";
 import {initStateType} from "../AutocompleteAddress";
 import * as yup from 'yup';
-import {SuccessSnackBar} from "../SuccessSnackBar/SuccessSnackBar";
 
 
 type InputFormPropsType = {
     state: initStateType
+    setIsSelectAddress: (selectAddress: boolean) => void
+    setAddress: (address: string) => void
 }
 
 const validationSchema = yup.object({
@@ -34,21 +35,20 @@ const validationSchema = yup.object({
         .required('это поле обязательно для заполнения'),
 });
 export const InputForm = (props: InputFormPropsType) => {
-    const [address, setAddress] = useState<string>("")
+
     const formik = useFormik({
         initialValues: props.state,
         validationSchema: validationSchema,
         onSubmit: values => {
-            debugger
             formik.resetForm()
-            setAddress(`вы выбрали адрес- город: ${formik.values.locality}, улица: ${formik.values.street},
+            props.setAddress(`вы выбрали адрес- город: ${formik.values.locality}, улица: ${formik.values.street},
              дом: ${formik.values.home}`)
-
+            props.setIsSelectAddress(false)
+            // и отправляем адрес в стейт
         }
     })
     return (
-        <div>INPUT FORM
-
+        <div>
             <form onSubmit={formik.handleSubmit}>
                 <div><TextField
                     name={"street"}
@@ -109,7 +109,6 @@ export const InputForm = (props: InputFormPropsType) => {
                 /></div>
                 <Button type="submit">Далее</Button>
             </form>
-            {address && <SuccessSnackBar text={address}/>}
         </div>
     )
 }
