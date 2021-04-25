@@ -4,6 +4,7 @@ import styled from "styled-components";
 import {InputForm} from "./InputAddressForm/InputAddressForm";
 import {getNewAddressState} from "./HelperFunctions";
 import EditIcon from '@material-ui/icons/Edit';
+import {SuccessSnackBar} from "./SuccessSnackBar/SuccessSnackBar";
 
 const StyledTextField = styled(TextField)`
   width: 500px;
@@ -13,6 +14,7 @@ const StyledSpan = styled.div`
 `
 export const AutocompleteAddress = () => {
     const [isEdit, setIsEdit] = useState<boolean>(false)
+       const [isSelectAddress, setIsSelectAddress] = useState<boolean>(false)
     const [state, setState] = useState<initStateType>({
         street: "", home: "", district: "", locality: "", area: "", region: "", country: "",
     })
@@ -30,25 +32,26 @@ export const AutocompleteAddress = () => {
         let addressObject = autocomplete.getPlace()
         const stateWithAddress = getNewAddressState(addressObject)
         setState({...state, ...stateWithAddress})
-
+        setIsSelectAddress(true)
     }
     const handleRedact = () => {
         setIsEdit(!isEdit)
     }
 
     return (
-        <div>
+        <div>Ольшевского
             <h1>Add New Address</h1>
             <StyledTextField id="autocomplete"
                              variant="outlined"
                              className="input-field"
                              type="text"/>
 
-            <div>
-                <StyledSpan> вы выбрали разбитый по структуре адрес </StyledSpan> <Button onClick={handleRedact}><EditIcon/>редактировать</Button>
-            </div>
+            {isSelectAddress && <div>
+                <StyledSpan> вы выбрали разбитый по структуре адрес </StyledSpan> <Button
+                onClick={handleRedact}><EditIcon/>редактировать</Button>
+            </div>}
             {isEdit && <InputForm state={state}/>}
-        </div>
+            </div>
     )
 }
 
