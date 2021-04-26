@@ -61,6 +61,8 @@ const AutocompleteAddress = (props: AutocompleteAddressType) => {
     const onChangeInput = () => {
         setIsSelectAddress(false)
         setErrorAddress("")
+        setIsEdit(false)
+        setAddress("")
     }
     return (
         <ThemeProvider theme={props.theme}>
