@@ -30,20 +30,22 @@ type AutocompleteAddressType = { theme: Theme }
 
 const AutocompleteAddress = (props: AutocompleteAddressType) => {
     const [state, setState] = useState<initStateType>({
-        street: "", home: "", district: "", locality: "", area: "", region: "", country: "" })
+        street: "", home: "", district: "", locality: "", area: "", region: "", country: ""
+    })
     const [isEdit, setIsEdit] = useState<boolean>(false)
     const [isSelectAddress, setIsSelectAddress] = useState<boolean>(false)
     const [address, setAddress] = useState<string>("")
     const [errorAddress, setErrorAddress] = useState<string>("")
-// @ts-ignore
-    let autocomplete
+
+    let autocomplete:any
 
     useEffect(() => {
-        // @ts-ignore
+          // @ts-ignore
         autocomplete = new google.maps.places.Autocomplete(document.getElementById('autocomplete'), {})
         autocomplete.addListener("place_changed", handlePlaceSelect)
-    }, [])
 
+        return () => autocomplete.removeEventListener("place_changed", handlePlaceSelect);
+    }, [])
 
 
     const handlePlaceSelect = () => {
